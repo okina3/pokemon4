@@ -52,16 +52,16 @@
                      {{-- 相手のチーム --}}
                      <div class="mb-2 ">
                         <span>相手チーム<span class="font-normal">・・・</span></span>
-                        @foreach ($battle->opponentTeams as $opp_team)
+                        @foreach ($battle->oppTeams as $opp_team)
                            <span class="mr-2 py-0.5 px-1 border border-gray-500 rounded">{{ $opp_team->name }}</span>
                         @endforeach
                      </div>
                      {{-- 実際の選出候補 --}}
                      <div class="mb-2">
                         <span>選出（相手）<span class="font-normal">・・</span></span>
-                        @foreach ($battle->opponentSelections as $opp_selection)
+                        @foreach ($battle->oppSelects as $opp_Select)
                            <span
-                              class="mr-2 py-0.5 px-1 border border-gray-500 rounded">{{ $opp_selection->name }}</span>
+                              class="mr-2 py-0.5 px-1 border border-gray-500 rounded">{{ $opp_Select->name }}</span>
                         @endforeach
                      </div>
                      {{-- 自分の選出候補 --}}
@@ -75,8 +75,8 @@
                      {{-- 環境 --}}
                      <div class="mb-2">
                         <span>環境<span class="font-normal">・・・・・・</span></span>
-                        @foreach ($battle->environments as $environment)
-                           <span class="border-b border-gray-500">{{ $environment->name }}</span>、
+                        @foreach ($battle->envs as $envs)
+                           <span class="border-b border-gray-500">{{ $envs->name }}</span>、
                         @endforeach
                      </div>
                   </div>

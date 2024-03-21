@@ -20,40 +20,40 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手のチーム</h2>
                @for ($i = 1; $i <= 6; $i++)
-                  <select class="w-40" name="opponent_teams[{{ $i }}]">
+                  <select class="w-40" name="opp_teams[{{ $i }}]">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}"
-                           {{ old("opponent_teams.$i") == $pokemon->id ? 'selected' : '' }}>{{ $pokemon->name }}
+                           {{ old("opp_teams.$i") == $pokemon->id ? 'selected' : '' }}>{{ $pokemon->name }}
                         </option>
                      @endforeach
                   </select>
                @endfor
                {{-- エラーメッセージ（相手の順位） --}}
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.1')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.2')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.3')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.4')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.5')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_teams.6')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.1')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.2')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.3')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.4')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.5')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.6')" />
             </div>
             {{-- 相手の選出を選択 --}}
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手の選出</h2>
                @for ($i = 1; $i <= 3; $i++)
-                  <select class="w-40" name="opponent_selections[{{ $i }}]">
+                  <select class="w-40" name="opp_selects[{{ $i }}]">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}"
-                           {{ old("opponent_selections.$i") == $pokemon->id ? 'selected' : '' }}>{{ $pokemon->name }}
+                           {{ old("opp_selects.$i") == $pokemon->id ? 'selected' : '' }}>{{ $pokemon->name }}
                         </option>
                      @endforeach
                   </select>
                @endfor
                {{-- エラーメッセージ（相手の選出） --}}
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_selections.1')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_selections.2')" />
-               <x-input-error class="mt-2" :messages="$errors->get('opponent_selections.3')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.1')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.2')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.3')" />
             </div>
             {{-- 自分の選出を選択 --}}
             <div class="mb-5">
@@ -76,12 +76,12 @@
             {{-- 環境を選択 --}}
             <div class="mb-5">
                <h2 class="sub_heading mb-1">環境</h2>
-               @foreach ($all_environments as $environment)
+               @foreach ($all_envs as $envs)
                   <div class="hover:font-semibold">
-                     <input class="mb-1 rounded" type="checkbox" name="environments[]" id="{{ $environment->id }}"
-                        value="{{ $environment->id }}"
-                        {{ in_array($environment->id, old('environments', [])) ? 'checked' : '' }} />
-                     <label for="{{ $environment->id }}">{{ $environment->name }}</label>
+                     <input class="mb-1 rounded" type="checkbox" name="envs[]" id="{{ $envs->id }}"
+                        value="{{ $envs->id }}"
+                        {{ in_array($envs->id, old('envs', [])) ? 'checked' : '' }} />
+                     <label for="{{ $envs->id }}">{{ $envs->name }}</label>
                   </div>
                @endforeach
             </div>

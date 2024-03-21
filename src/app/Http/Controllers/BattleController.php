@@ -18,16 +18,16 @@ class BattleController extends Controller
     public function index()
     {
         // 全バトルデータを取得
-        $all_battle = Battle::with(['opponentTeams', 'opponentSelections', 'playerSelects', 'environments'])
+        $all_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
 
         // 全環境を取得
-        $all_environments = Envs::where('user_id', Auth::id())
+        $all_envs = Envs::where('user_id', Auth::id())
             ->get();
 
-        return view('battles.index', compact('all_battle', 'all_environments'));
+        return view('battles.index', compact('all_battle', 'all_envs'));
     }
 
     public function create()
@@ -36,15 +36,14 @@ class BattleController extends Controller
         $all_pokemon = Pokemon::all();
 
         // 全環境を取得
-        $all_environments = Envs::where('user_id', Auth::id())
+        $all_envs = Envs::where('user_id', Auth::id())
             ->get();
 
-        return view('battles.create', compact('all_pokemon', 'all_environments'));
+        return view('battles.create', compact('all_pokemon', 'all_envs'));
     }
 
     public function store(BattleRequest $request)
     {
-        dd($request->all());
         // バトルデータを保存
         $battle = Battle::create([
             'user_id' => Auth::id(),
@@ -54,13 +53,13 @@ class BattleController extends Controller
         ]);
 
         // 相手のチームをバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->opponent_teams as $opponent_team) {
-            Battle::findOrFail($battle->id)->opponentTeams()->attach($opponent_team);
+        foreach ($request->opp_teams as $opp_team) {
+            Battle::findOrFail($battle->id)->oppTeams()->attach($opp_team);
         }
 
         // 相手の選出をバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->opponent_selections as $opponent_selection) {
-            Battle::findOrFail($battle->id)->opponentSelections()->attach($opponent_selection);
+        foreach ($request->opp_selects as $opp_select) {
+            Battle::findOrFail($battle->id)->oppSelects()->attach($opp_select);
         }
 
         // 自分の選出をバトルデータに紐付けて中間テーブルに保存
@@ -69,8 +68,8 @@ class BattleController extends Controller
         }
 
         // 環境をバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->environments as $environment_number) {
-            Battle::findOrFail($battle->id)->environments()->attach($environment_number);
+        foreach ($request->envs as $envs_number) {
+            Battle::findOrFail($battle->id)->envs()->attach($envs_number);
         }
 
         return to_route('index')->with(['message' => 'バトルデータを登録しました。', 'status' => 'info']);

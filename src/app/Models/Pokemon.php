@@ -18,7 +18,7 @@ class Pokemon extends Model
      * Battleモデルとの多対多のリレーションを定義（相手の選出候補）
      * @return BelongsToMany
      */
-    public function opponentTeams(): BelongsToMany
+    public function oppTeams(): BelongsToMany
     {
         return $this->belongsToMany(Battle::class, 'opp_teams');
     }
@@ -27,7 +27,7 @@ class Pokemon extends Model
      * Battleモデルとの多対多のリレーションを定義（相手の選出）
      * @return BelongsToMany
      */
-    public function opponentSelections(): BelongsToMany
+    public function oppSelects(): BelongsToMany
     {
         return $this->belongsToMany(Battle::class, 'opp_selects');
     }

@@ -21,7 +21,7 @@ class Battle extends Model
      * Pokemonモデルとの多対多のリレーションを定義（相手の選出候補）
      * @return BelongsToMany
      */
-    public function opponentTeams(): BelongsToMany
+    public function oppTeams(): BelongsToMany
     {
         return $this->belongsToMany(Pokemon::class, 'opp_teams')
             ->orderByPivot('id', 'asc');
@@ -31,7 +31,7 @@ class Battle extends Model
      * Pokemonモデルとの多対多のリレーションを定義（相手の選出）
      * @return BelongsToMany
      */
-    public function opponentSelections(): BelongsToMany
+    public function oppSelects(): BelongsToMany
     {
         return $this->belongsToMany(Pokemon::class, 'opp_selects')
             ->orderByPivot('id', 'asc');
@@ -51,7 +51,7 @@ class Battle extends Model
      * Envsモデルとの多対多のリレーションを定義。
      * @return BelongsToMany
      */
-    public function environments(): BelongsToMany
+    public function envs(): BelongsToMany
     {
         return $this->belongsToMany(Envs::class, 'battle_envs');
     }
