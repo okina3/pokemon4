@@ -78,7 +78,7 @@ class BattleController extends Controller
     public function show(int $id)
     {
         // 選択した、バトルデータを取得
-        $select_battle = Battle::with(['opponentTeams', 'opponentSelections', 'playerSelects', 'environments'])
+        $select_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
             ->where('id', $id)
             ->where('user_id', Auth::id())
             ->first();

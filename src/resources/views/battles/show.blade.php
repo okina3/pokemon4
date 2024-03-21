@@ -13,15 +13,15 @@
             {{-- 選択したバトルデータの相手のチーム --}}
             <div class="mb-5">
                <h2 class="sub_heading mb-2">相手のチーム</h2>
-               @foreach ($select_battle->opponentTeams as $opp_team)
+               @foreach ($select_battle->oppTeams as $opp_team)
                   <span class="mr-2 p-2 font-semibold border border-gray-500 rounded">{{ $opp_team->name }}</span>
                @endforeach
             </div>
             {{-- 選択したバトルデータの相手の選出 --}}
             <div class="mb-5">
                <h2 class="sub_heading mb-2">相手の選出</h2>
-               @foreach ($select_battle->opponentSelections as $opp_selection)
-                  <span class="mr-2 p-2 font-semibold border border-gray-500 rounded">{{ $opp_selection->name }}</span>
+               @foreach ($select_battle->oppSelects as $opp_Select)
+                  <span class="mr-2 p-2 font-semibold border border-gray-500 rounded">{{ $opp_Select->name }}</span>
                @endforeach
             </div>
             {{-- 選択したバトルデータの自分の選出 --}}
@@ -34,10 +34,10 @@
             {{-- 選択したバトルデータの環境を表示 --}}
             <div class="mb-5">
                <h2 class="sub_heading">環境</h2>
-               @foreach ($select_battle->environments as $environment)
+               @foreach ($select_battle->envs as $envs)
                   <div class="inline mr-3">
                      <input class="mb-1 rounded" type="checkbox" checked disabled />
-                     <span class="font-semibold border-b border-gray-500">{{ $environment->name }}</span>
+                     <span class="font-semibold border-b border-gray-500">{{ $envs->name }}</span>
                   </div>
                @endforeach
             </div>
