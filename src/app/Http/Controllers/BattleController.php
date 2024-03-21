@@ -92,7 +92,7 @@ class BattleController extends Controller
         $all_pokemon = Pokemon::all();
 
         // 全環境を取得
-        $all_environments = Envs::where('user_id', Auth::id())
+        $all_envs = Envs::where('user_id', Auth::id())
             ->get();
 
         // 選択したバトルデータを取得
@@ -101,15 +101,15 @@ class BattleController extends Controller
             ->first();
 
         // 選択したバトルデータに紐づいた相手のチームidを取得
-        $opp__teams = [];
-        foreach ($select_battle->opponentTeams as $opp_team) {
+        $opp_teams = [];
+        foreach ($select_battle->oppTeams as $opp_team) {
             $opp_teams[] = $opp_team->id;
         }
 
         // 選択したバトルデータに紐づいた相手の選出idを取得
-        $opp_selections = [];
-        foreach ($select_battle->opponentSelections as $opp_selection) {
-            $opp_selections[] = $opp_selection->id;
+        $opp_selects = [];
+        foreach ($select_battle->oppSelects as $opp_select) {
+            $opp_selects[] = $opp_select->id;
         }
 
         // 選択したバトルデータに紐づいた自分の選出idを取得
@@ -119,14 +119,14 @@ class BattleController extends Controller
         }
 
         // 選択したバトルデータに紐づいた環境idを取得
-        $environments = [];
-        foreach ($select_battle->environments as $environment) {
-            $environments[] = $environment->id;
+        $envs = [];
+        foreach ($select_battle->envs as $env) {
+            $envs[] = $env->id;
         }
 
         return view(
             'battles.edit',
-            compact('all_pokemon', 'all_environments', 'select_battle', 'opp_teams', 'opp_selections', 'player_selects', 'environments')
+            compact('all_pokemon', 'all_envs', 'select_battle', 'opp_teams', 'opp_selects', 'player_selects', 'envs')
         );
     }
 
@@ -151,13 +151,13 @@ class BattleController extends Controller
         BattleEnvs::where('battle_id', $request->battleId)->delete();
 
         // 相手のチームをバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->opponent_teams as $opponent_team) {
-            Battle::findOrFail($battle->id)->opponentTeams()->attach($opponent_team);
+        foreach ($request->opp_teams as $opp_team) {
+            Battle::findOrFail($battle->id)->oppTeams()->attach($opp_team);
         }
 
         // 相手の選出をバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->opponent_selections as $opponent_selection) {
-            Battle::findOrFail($battle->id)->opponentSelections()->attach($opponent_selection);
+        foreach ($request->opp_selects as $opp_select) {
+            Battle::findOrFail($battle->id)->oppSelects()->attach($opp_select);
         }
 
         // 自分の選出をバトルデータに紐付けて中間テーブルに保存
@@ -166,8 +166,8 @@ class BattleController extends Controller
         }
 
         // 環境をバトルデータに紐付けて中間テーブルに保存
-        foreach ($request->environments as $environment_number) {
-            Battle::findOrFail($battle->id)->environments()->attach($environment_number);
+        foreach ($request->envs as $envs_number) {
+            Battle::findOrFail($battle->id)->envs()->attach($envs_number);
         }
 
         return to_route('index')->with(['message' => 'バトルデータを更新しました。', 'status' => 'info']);
@@ -177,8 +177,8 @@ class BattleController extends Controller
     {
         // 選択したメモを削除
         Battle::where('id', $request->battleId)
-        ->where('user_id', Auth::id())
-        ->delete();
+            ->where('user_id', Auth::id())
+            ->delete();
 
         return to_route('index')->with(['message' => 'バトルデータを削除しました。', 'status' => 'alert']);
     }

@@ -17,7 +17,7 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手のチーム</h2>
                @for ($i = 1; $i <= 6; $i++)
-                  <select class="w-40" name="opponent_teams[{{ $i }}]">
+                  <select class="w-40" name="opp_teams[{{ $i }}]">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}" {{ $opp_teams[$i - 1] == $pokemon->id ? 'selected' : '' }}>
@@ -31,11 +31,11 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手の選出</h2>
                @for ($i = 1; $i <= 3; $i++)
-                  <select class="w-40" name="opponent_selections[{{ $i }}]">
+                  <select class="w-40" name="opp_selects[{{ $i }}]">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}"
-                           {{ $opp_selections[$i - 1] == $pokemon->id ? 'selected' : '' }}>
+                           {{ $opp_selects[$i - 1] == $pokemon->id ? 'selected' : '' }}>
                            {{ $pokemon->name }}
                         </option>
                      @endforeach
@@ -60,12 +60,12 @@
             {{-- 環境を選択 --}}
             <div class="mb-5">
                <h2 class="sub_heading mb-1">環境</h2>
-               @foreach ($all_environments as $environment)
+               @foreach ($all_envs as $env)
                   <div class="hover:font-semibold">
-                     <input class="mb-1 rounded" type="checkbox" name="environments[]" id="{{ $environment->id }}"
-                        value="{{ $environment->id }}"
-                        {{ in_array($environment->id, $environments) ? 'checked' : '' }} />
-                     <label for="{{ $environment->id }}">{{ $environment->name }}</label>
+                     <input class="mb-1 rounded" type="checkbox" name="envs[]" id="{{ $env->id }}"
+                        value="{{ $env->id }}"
+                        {{ in_array($env->id, $envs) ? 'checked' : '' }} />
+                     <label for="{{ $env->id }}">{{ $env->name }}</label>
                   </div>
                @endforeach
             </div>
