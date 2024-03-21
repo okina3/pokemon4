@@ -16,11 +16,11 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('environment_id')
+            $table->foreignId('envs_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->primary(['battle_id', 'environment_id']);
+            $table->primary(['battle_id', 'envs_id']);
         });
     }
 
