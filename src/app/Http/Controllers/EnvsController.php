@@ -15,10 +15,10 @@ class EnvsController extends Controller
     public function index()
     {
         // 全環境を取得
-        $all_environments = Envs::where('user_id', Auth::id())
+        $all_envs = Envs::where('user_id', Auth::id())
             ->get();
 
-        return view('environments.index', compact('all_environments'));
+        return view('envs.index', compact('all_envs'));
     }
 
     /**
@@ -27,19 +27,19 @@ class EnvsController extends Controller
     public function store(Request $request)
     {
         // 環境が重複していないか調べる
-        $environment_exists = Envs::where('name', $request->new_environment)
+        $envs_exists = Envs::where('name', $request->new_envs)
             ->where('user_id', Auth::id())
             ->exists();
 
         // 環境が、重複していなれば、環境を保存
-        if (!empty($request->new_environment) && !$environment_exists) {
+        if (!empty($request->new_envs) && !$envs_exists) {
             Envs::create([
-                'name' => $request->new_environment,
+                'name' => $request->new_envs,
                 'user_id' => Auth::id()
             ]);
         }
 
-        return to_route('environment.index')->with(['message' => '環境を登録しました。', 'status' => 'info']);
+        return to_route('envs.index')->with(['message' => '環境を登録しました。', 'status' => 'info']);
     }
 
     /**
@@ -48,11 +48,11 @@ class EnvsController extends Controller
     public function destroy(Request $request)
     {
         // 環境を複数まとめて削除
-        foreach ($request->tags as $tag) {
-            Envs::where('id', $tag)
+        foreach ($request->envs as $envs) {
+            Envs::where('id', $envs)
                 ->where('user_id', Auth::id())
                 ->delete();
         }
-        return to_route('environment.index')->with(['message' => '環境を削除しました。', 'status' => 'alert']);
+        return to_route('envs.index')->with(['message' => '環境を削除しました。', 'status' => 'alert']);
     }
 }

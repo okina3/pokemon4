@@ -6,29 +6,29 @@
       <div class="p-3">
          <x-common.flash-message status="session('status')" />
          {{-- 環境を新規作成エリア --}}
-         <form action="{{ route('environment.store') }}" method="post">
+         <form action="{{ route('envs.store') }}" method="post">
             @csrf
             <div class="mb-2 pb-10 border-b border-gray-400">
                <h1 class="mb-1 text-lg font-semibold">環境の新規作成</h1>
-                  <input class="form-control rounded w-60" type="text" name="new_environment" placeholder="新規環境を入力" />
-                  <button class="ml-2 py-2 px-3 text-white rounded bg-blue-800 hover:bg-blue-700" type="submit">
-                     保存
-                  </button>
+               <input class="form-control rounded w-60" type="text" name="new_envs" placeholder="新規環境を入力" />
+               <button class="ml-2 py-2 px-3 text-white rounded bg-blue-800 hover:bg-blue-700" type="submit">
+                  保存
+               </button>
                {{-- 新規タグのエラーメッセージ --}}
                {{-- <x-input-error :messages="$errors->get('new_tag')" class="mt-2" /> --}}
             </div>
          </form>
          {{-- 環境一覧 --}}
-         <form onsubmit="return deleteCheck()" action="{{ route('environment.destroy') }}" method="post">
+         <form onsubmit="return deleteCheck()" action="{{ route('envs.destroy') }}" method="post">
             @csrf
             @method('delete')
             <div class="mb-5">
                <h1 class="mb-1 text-lg font-semibold">既存の環境</h1>
-               @foreach ($all_environments as $tag)
+               @foreach ($all_envs as $envs)
                   <div class="border-slate-500 hover:font-semibold">
-                     <input class="mb-1 rounded" type="checkbox" name="tags[]" id="{{ $tag->id }}"
-                        value="{{ $tag->id }}" {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
-                     <label for="{{ $tag->id }}">{{ $tag->name }}</label>
+                     <input class="mb-1 rounded" type="checkbox" name="envs[]" id="{{ $envs->id }}"
+                        value="{{ $envs->id }}" {{ in_array($envs->id, old('envs', [])) ? 'checked' : '' }} />
+                     <label for="{{ $envs->id }}">{{ $envs->name }}</label>
                   </div>
                @endforeach
             </div>
