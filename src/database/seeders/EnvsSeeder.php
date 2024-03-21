@@ -13,7 +13,7 @@ class EnvsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('environments')->insert([
+        DB::table('envs')->insert([
             [
                 'name' => 'ヒトカゲ入り',
                 'user_id' => '1',
