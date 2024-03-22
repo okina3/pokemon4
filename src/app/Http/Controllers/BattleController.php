@@ -10,12 +10,18 @@ use App\Models\OppSelect;
 use App\Models\OppTeam;
 use App\Models\PlayerSelect;
 use App\Models\Pokemon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class BattleController extends Controller
 {
-    public function index()
+    /**
+     * バトルデータの一覧を表示するメソッド。
+     * @return View
+     */
+    public function index(): View
     {
         // 全バトルデータを取得
         $all_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
@@ -30,7 +36,11 @@ class BattleController extends Controller
         return view('battles.index', compact('all_battle', 'all_envs'));
     }
 
-    public function create()
+    /**
+     * バトルデータの新規作成画面を表示するメソッド。
+     * @return View
+     */
+    public function create(): View
     {
         // 全ポケモンを取得
         $all_pokemon = Pokemon::all();
@@ -42,9 +52,13 @@ class BattleController extends Controller
         return view('battles.create', compact('all_pokemon', 'all_envs'));
     }
 
-    public function store(BattleRequest $request)
+    /**
+     * バトルデータを保存するメソッド。
+     * @param BattleRequest $request
+     * @return RedirectResponse
+     */
+    public function store(BattleRequest $request): RedirectResponse
     {
-        // dd($request->all());
         // バトルデータを保存
         $battle = Battle::create([
             'user_id' => Auth::id(),
@@ -76,7 +90,12 @@ class BattleController extends Controller
         return to_route('index')->with(['message' => 'バトルデータを登録しました。', 'status' => 'info']);
     }
 
-    public function show(int $id)
+    /**
+     * バトルデータの詳細を表示するメソッド。
+     * @param int $id
+     * @return View
+     */
+    public function show(int $id): View
     {
         // 選択した、バトルデータを取得
         $select_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
@@ -87,7 +106,12 @@ class BattleController extends Controller
         return view('battles.show', compact('select_battle'));
     }
 
-    public function edit(int $id)
+    /**
+     * バトルデータの編集画面を表示するメソッド。
+     * @param int $id
+     * @return View
+     */
+    public function edit(int $id): View
     {
         // 全ポケモンを取得
         $all_pokemon = Pokemon::all();
@@ -131,9 +155,13 @@ class BattleController extends Controller
         );
     }
 
-    public function update(BattleRequest $request)
+    /**
+     * バトルデータを更新するメソッド。
+     * @param BattleRequest $request
+     * @return RedirectResponse
+     */
+    public function update(BattleRequest $request): RedirectResponse
     {
-        // dd($request->all());
         // バトルデータを更新
         $battle = Battle::where('id', $request->battleId)
             ->where('user_id', Auth::id())
@@ -175,7 +203,12 @@ class BattleController extends Controller
         return to_route('index')->with(['message' => 'バトルデータを更新しました。', 'status' => 'info']);
     }
 
-    public function destroy(Request $request)
+    /**
+     * バトルデータを削除するメソッド。
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request): RedirectResponse
     {
         // 選択したバトルデータを削除
         Battle::where('id', $request->battleId)

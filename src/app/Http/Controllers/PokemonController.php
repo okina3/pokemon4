@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Pokemon;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PokemonRequest;
+use App\Models\Pokemon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class PokemonController extends Controller
 {
-    public function index()
+    /**
+     * ポケモンの一覧を表示するメソッド。
+     * @return View
+     */
+    public function index(): View
     {
         // 全ポケモンを取得
         $all_pokemon = Pokemon::where('user_id', Auth::id())
@@ -18,13 +24,22 @@ class PokemonController extends Controller
         return view('pokemon.index', compact('all_pokemon'));
     }
 
-    public function create()
+    /**
+     * ポケモンの新規作成画面を表示するメソッド。
+     * @return View
+     */
+    public function create(): View
     {
 
         return view('pokemon.create');
     }
 
-    public function store(PokemonRequest $request)
+    /**
+     * ポケモンを保存するメソッド。
+     * @param PokemonRequest $request
+     * @return RedirectResponse
+     */
+    public function store(PokemonRequest $request): RedirectResponse
     {
         // ポケモンを保存
         Pokemon::create([
@@ -35,7 +50,12 @@ class PokemonController extends Controller
         return to_route('pokemon.index')->with(['message' => 'ポケモンを登録しました。', 'status' => 'info']);
     }
 
-    public function show($id)
+    /**
+     * ポケモンの詳細を表示するメソッド。
+     * @param $id
+     * @return View
+     */
+    public function show($id): View
     {
         // 選択したポケモンのデータを取得
         $select_pokemon = Pokemon::where('id', $id)
@@ -45,7 +65,12 @@ class PokemonController extends Controller
         return view('pokemon.show', compact('select_pokemon'));
     }
 
-    public function edit($id)
+    /**
+     * ポケモンの編集画面を表示するメソッド。
+     * @param $id
+     * @return View
+     */
+    public function edit($id): View
     {
         // 選択したポケモンのデータを取得
         $select_pokemon = Pokemon::where('id', $id)
@@ -55,8 +80,12 @@ class PokemonController extends Controller
         return view('pokemon.edit', compact('select_pokemon'));
     }
 
-
-    public function update(PokemonRequest $request)
+    /**
+     * ポケモンを更新するメソッド。
+     * @param PokemonRequest $request
+     * @return RedirectResponse
+     */
+    public function update(PokemonRequest $request): RedirectResponse
     {
         // ポケモンを更新
         $pokemon = Pokemon::where('id', $request->pokemonId)
@@ -68,7 +97,12 @@ class PokemonController extends Controller
         return to_route('pokemon.index')->with(['message' => 'ポケモンを更新しました。', 'status' => 'info']);
     }
 
-    public function destroy(Request $request)
+    /**
+     * ポケモンを削除するメソッド。
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request): RedirectResponse
     {
         // 選択したポケモンを削除
         Pokemon::where('id', $request->pokemonId)
