@@ -23,11 +23,23 @@ class BattleController extends Controller
      */
     public function index(): View
     {
-        // 全バトルデータを取得
-        $all_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
-            ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $get_url_tag = \Request::query('envs');
+        // もしクエリパラメータがあれば、環境から絞り込む
+        if (!empty($get_url_tag)) {
+            // 絞り込んだ環境にリレーションされたバトルデータを含む、環境を取得
+            $tag_relation = Envs::with('battles')
+                ->where('id', $get_url_tag)
+                ->where('user_id', Auth::id())
+                ->first();
+            // 環境にリレーションされたバトルデータを取得
+            $all_battle = $tag_relation->battles;
+        } else {
+            // 全バトルデータを取得
+            $all_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
+                ->where('user_id', Auth::id())
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
         // 全環境を取得
         $all_envs = Envs::where('user_id', Auth::id())
