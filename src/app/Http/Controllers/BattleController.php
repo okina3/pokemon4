@@ -175,7 +175,7 @@ class BattleController extends Controller
 
     public function destroy(Request $request)
     {
-        // 選択したメモを削除
+        // 選択したバトルデータを削除
         Battle::where('id', $request->battleId)
             ->where('user_id', Auth::id())
             ->delete();

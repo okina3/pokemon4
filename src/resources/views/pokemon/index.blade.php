@@ -41,10 +41,19 @@
                         詳細
                      </button>
                      {{-- 編集ボタン --}}
-                     <button class="btn bg-blue-800 hover:bg-blue-700"
+                     <button class="btn mr-3 bg-blue-800 hover:bg-blue-700"
                         onclick="location.href='{{ route('pokemon.edit', ['pokemon' => $pokemon->id]) }}'">
                         編集
                      </button>
+                     <form onsubmit="return deleteCheck()" action="{{ route('pokemon.destroy') }}" method="post">
+                        @csrf
+                        @method('delete')
+                        {{-- 選択されているポケモンのidを取得 --}}
+                        <input type="hidden" name="pokemonId" value="{{ $pokemon->id }}">
+                        <button type="submit" class="py-1 px-3 rounded bg-red-600 hover:bg-red-500">
+                           削除
+                        </button>
+                     </form>
                   </div>
                </div>
             @endforeach

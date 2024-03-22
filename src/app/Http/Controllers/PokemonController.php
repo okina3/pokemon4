@@ -69,7 +69,11 @@ class PokemonController extends Controller
 
     public function destroy(Request $request)
     {
+        // 選択したポケモンを削除
+        Pokemon::where('id', $request->pokemonId)
+            ->where('user_id', Auth::id())
+            ->delete();
 
-        return to_route('pokemon.index')->with(['message' => 'ポケモンを削除しました。', 'status' => 'info']);
+        return to_route('pokemon.index')->with(['message' => 'ポケモンを削除しました。', 'status' => 'alert']);
     }
 }
