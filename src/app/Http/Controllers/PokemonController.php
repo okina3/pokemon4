@@ -43,4 +43,33 @@ class PokemonController extends Controller
 
         return view('pokemon.show', compact('select_pokemon'));
     }
+
+    public function edit($id)
+    {
+        // 選択したポケモンのデータを取得
+        $select_pokemon = Pokemon::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        return view('pokemon.edit', compact('select_pokemon'));
+    }
+
+
+    public function update(Request $request)
+    {
+        // ポケモンを更新
+        $pokemon = Pokemon::where('id', $request->pokemonId)
+            ->where('user_id', Auth::id())
+            ->first();
+        $pokemon->name = $request->name;
+        $pokemon->save();
+
+        return to_route('pokemon.index')->with(['message' => 'ポケモンを更新しました。', 'status' => 'info']);
+    }
+
+    public function destroy(Request $request)
+    {
+
+        return to_route('pokemon.index')->with(['message' => 'ポケモンを削除しました。', 'status' => 'info']);
+    }
 }
