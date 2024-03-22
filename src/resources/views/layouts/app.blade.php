@@ -29,7 +29,9 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="max-w-7xl mx-auto px-2 py-2">
+                    {{ $slot }}
+                </div>
             </main>
         </div>
     </body>
