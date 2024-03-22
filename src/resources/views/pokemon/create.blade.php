@@ -12,7 +12,7 @@
                <input class="w-60 rounded" type="text" name="name" value="{{ old('name') }}"
                   placeholder="ポケモン名を入力" />
                {{-- エラーメッセージ（メモのタイトル） --}}
-               {{-- <x-input-error class="mt-2" :messages="$errors->get('name')"/> --}}
+               <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
             {{-- メモの保存ボタン --}}
             <div class="mb-5">

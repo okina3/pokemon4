@@ -41,6 +41,7 @@ class BattleRequest extends FormRequest
             'player_selects.2' => 'required',
             'player_selects.3' => 'required',
 
+            'envs' => 'required',
             'judgment' => 'string | nullable ',
             'comment' => 'string | nullable',
         ];
@@ -71,7 +72,7 @@ class BattleRequest extends FormRequest
             'player_selects.2.required' => '自分の選出2ポケモンを入力してください。',
             'player_selects.3.required' => '自分の選出3ポケモンを入力してください。',
 
-            
+            'envs.required' => '環境が空です。選択してください。',
         ];
     }
 }

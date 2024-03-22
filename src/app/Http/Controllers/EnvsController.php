@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Envs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\EnvsRequest;
 
 class EnvsController extends Controller
 {
@@ -24,7 +25,7 @@ class EnvsController extends Controller
     /**
      * 環境を保存するメソッド。
      */
-    public function store(Request $request)
+    public function store(EnvsRequest $request)
     {
         // 環境が重複していないか調べる
         $envs_exists = Envs::where('name', $request->new_envs)

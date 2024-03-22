@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pokemon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PokemonRequest;
 
 class PokemonController extends Controller
 {
@@ -23,7 +24,7 @@ class PokemonController extends Controller
         return view('pokemon.create');
     }
 
-    public function store(Request $request)
+    public function store(PokemonRequest $request)
     {
         // ポケモンを保存
         Pokemon::create([
@@ -55,7 +56,7 @@ class PokemonController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(PokemonRequest $request)
     {
         // ポケモンを更新
         $pokemon = Pokemon::where('id', $request->pokemonId)

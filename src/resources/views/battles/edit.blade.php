@@ -12,6 +12,8 @@
                <input class="w-28 h-8 rounded" type="text" name="rank" value="{{ $select_battle->rank }}"
                   placeholder="順位を入力" />
                <p class="ml-2 font-semibold">位</p>
+               {{-- エラーメッセージ（相手の順位） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('rank')" />
             </div>
             {{-- 相手のチームを選択 --}}
             <div class="mb-5">
@@ -26,6 +28,13 @@
                      @endforeach
                   </select>
                @endfor
+               {{-- エラーメッセージ（相手の順位） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.1')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.2')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.3')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.4')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.5')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_teams.6')" />
             </div>
             {{-- 相手の選出を選択 --}}
             <div class="mb-5">
@@ -41,6 +50,10 @@
                      @endforeach
                   </select>
                @endfor
+               {{-- エラーメッセージ（相手の選出） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.1')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.2')" />
+               <x-input-error class="mt-2" :messages="$errors->get('opp_selects.3')" />
             </div>
             {{-- 自分の選出を選択 --}}
             <div class="mb-5">
@@ -56,6 +69,10 @@
                      @endforeach
                   </select>
                @endfor
+               {{-- エラーメッセージ（自分の選出） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('player_selects.1')" />
+               <x-input-error class="mt-2" :messages="$errors->get('player_selects.2')" />
+               <x-input-error class="mt-2" :messages="$errors->get('player_selects.3')" />
             </div>
             {{-- 環境を選択 --}}
             <div class="mb-5">
@@ -63,11 +80,12 @@
                @foreach ($all_envs as $env)
                   <div class="hover:font-semibold">
                      <input class="mb-1 rounded" type="checkbox" name="envs[]" id="{{ $env->id }}"
-                        value="{{ $env->id }}"
-                        {{ in_array($env->id, $envs) ? 'checked' : '' }} />
+                        value="{{ $env->id }}" {{ in_array($env->id, $envs) ? 'checked' : '' }} />
                      <label for="{{ $env->id }}">{{ $env->name }}</label>
                   </div>
                @endforeach
+               {{-- エラーメッセージ（環境の設定） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('envs')" />
             </div>
             {{-- 勝敗 --}}
             <div class="mb-5 font-semibold">
@@ -89,7 +107,7 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">コメント</h2>
                <textarea class="w-full rounded" name="comment" rows="7" placeholder="ここにコメントを入力">{{ $select_battle->comment }}</textarea>
-               {{-- エラーメッセージ（メモの内容） --}}
+               {{-- エラーメッセージ（コメント） --}}
                {{-- <x-input-error class="mt-2" :messages="$errors->get('content')" /> --}}
             </div>
             {{-- 選択されているメモのidを取得 --}}

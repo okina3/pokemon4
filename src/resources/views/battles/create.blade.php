@@ -23,8 +23,8 @@
                   <select class="w-40" name="opp_teams[{{ $i }}]">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
-                        <option value="{{ $pokemon->id }}"
-                           {{ old("opp_teams.$i") == $pokemon->id ? 'selected' : '' }}>{{ $pokemon->name }}
+                        <option value="{{ $pokemon->id }}" {{ old("opp_teams.$i") == $pokemon->id ? 'selected' : '' }}>
+                           {{ $pokemon->name }}
                         </option>
                      @endforeach
                   </select>
@@ -79,11 +79,12 @@
                @foreach ($all_envs as $envs)
                   <div class="hover:font-semibold">
                      <input class="mb-1 rounded" type="checkbox" name="envs[]" id="{{ $envs->id }}"
-                        value="{{ $envs->id }}"
-                        {{ in_array($envs->id, old('envs', [])) ? 'checked' : '' }} />
+                        value="{{ $envs->id }}" {{ in_array($envs->id, old('envs', [])) ? 'checked' : '' }} />
                      <label for="{{ $envs->id }}">{{ $envs->name }}</label>
                   </div>
                @endforeach
+               {{-- エラーメッセージ（環境の設定） --}}
+               <x-input-error class="mt-2" :messages="$errors->get('envs')" />
             </div>
             {{-- 勝敗 --}}
             <div class="mb-5 font-semibold">
@@ -101,7 +102,7 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">コメント</h2>
                <textarea class="w-full rounded" name="comment" rows="7" placeholder="ここにコメントを入力">{{ old('comment') }}</textarea>
-               {{-- エラーメッセージ（メモの内容） --}}
+               {{-- エラーメッセージ（コメント） --}}
                {{-- <x-input-error class="mt-2" :messages="$errors->get('content')" /> --}}
             </div>
 

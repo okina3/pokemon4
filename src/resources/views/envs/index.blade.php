@@ -14,8 +14,8 @@
                <button class="ml-2 py-2 px-3 text-white rounded bg-blue-800 hover:bg-blue-700" type="submit">
                   保存
                </button>
-               {{-- 新規タグのエラーメッセージ --}}
-               {{-- <x-input-error :messages="$errors->get('new_tag')" class="mt-2" /> --}}
+               {{-- 新規環境のエラーメッセージ --}}
+               <x-input-error :messages="$errors->get('new_envs')" class="mt-2" />
             </div>
          </form>
          {{-- 環境一覧 --}}

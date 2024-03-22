@@ -44,6 +44,7 @@ class BattleController extends Controller
 
     public function store(BattleRequest $request)
     {
+        // dd($request->all());
         // バトルデータを保存
         $battle = Battle::create([
             'user_id' => Auth::id(),
@@ -130,8 +131,9 @@ class BattleController extends Controller
         );
     }
 
-    public function update(Request $request)
+    public function update(BattleRequest $request)
     {
+        // dd($request->all());
         // バトルデータを更新
         $battle = Battle::where('id', $request->battleId)
             ->where('user_id', Auth::id())
