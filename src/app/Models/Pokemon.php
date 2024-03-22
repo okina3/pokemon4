@@ -41,4 +41,25 @@ class Pokemon extends Model
     {
         return $this->belongsToMany(Battle::class, 'player_selects');
     }
+
+    /**
+     * 検索したポケモンを表示するの為のスコープ。
+     * @param $query
+     * @param $keyword
+     * @return void
+     */
+    public function scopeSearchKeyword($query, $keyword): void
+    {
+        // もしポケモンの検索があったら
+        if (!is_null($keyword)) {
+            // 全角スペースを半角に変換
+            $spaceConvert = mb_convert_kana($keyword, 's');
+            // 空白で区切る
+            $keywords = preg_split('/\s+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+            // 単語をループで回す
+            foreach ($keywords as $word) {
+                $query->where('pokemon.name', 'like', '%' . $word . '%');
+            }
+        }
+    }
 }

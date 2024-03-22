@@ -15,10 +15,11 @@ class PokemonController extends Controller
      * ポケモンの一覧を表示するメソッド。
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         // 全ポケモンを取得
         $all_pokemon = Pokemon::where('user_id', Auth::id())
+            ->searchKeyword($request->keyword)
             ->get();
 
         return view('pokemon.index', compact('all_pokemon'));
