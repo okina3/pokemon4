@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class Battle extends Model
 {
@@ -54,5 +56,29 @@ class Battle extends Model
     public function envs(): BelongsToMany
     {
         return $this->belongsToMany(Envs::class, 'battle_envs');
+    }
+
+    /**
+     * 自分自身の、全てのバトルデータを取得する為のスコープ。
+     * @param Builder $query
+     * @return void
+     */
+    public function scopeAvailableAllBattle(Builder $query): void
+    {
+        // 全バトルデータを取得
+        $query->with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
+            ->where('user_id', Auth::id());
+    }
+
+    /**
+     * 自分自身の、選択したバトルデータを取得する為のスコープ。
+     * @param Builder $query
+     * @param int $id
+     * @return void
+     */
+    public function scopeAvailableSelectBattle(Builder $query, int $id): void
+    {
+        $query->where('id', $id)
+            ->where('user_id', Auth::id());
     }
 }

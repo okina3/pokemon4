@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BattleController;
 use App\Http\Controllers\EnvsController;
+use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,16 @@ Route::middleware('auth')->group(function () {
         Route::delete('/destroy', 'destroy')->name('envs.destroy');
     });
 
+    // ポケモン管理画面
+    Route::controller(PokemonController::class)->prefix('pokemon')->group(function () {
+        Route::get('/', 'index')->name('pokemon.index');
+        Route::get('create', 'create')->name('pokemon.create');
+        Route::post('store', 'store')->name('pokemon.store');
+        Route::get('show/{pokemon}', 'show')->name('pokemon.show');
+        Route::get('edit/{pokemon}', 'edit')->name('pokemon.edit');
+        Route::patch('update', 'update')->name('pokemon.update');
+        Route::delete('destroy', 'destroy')->name('pokemon.destroy');
+    });
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
