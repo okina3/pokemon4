@@ -10,7 +10,10 @@ use App\Services\BattleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Throwable;
 
 class BattleController extends Controller
 {
@@ -46,18 +49,26 @@ class BattleController extends Controller
      * バトルデータを保存するメソッド。
      * @param BattleRequest $request
      * @return RedirectResponse
+     * @throws Throwable
      */
     public function store(BattleRequest $request): RedirectResponse
     {
-        // バトルデータを保存
-        $battle = Battle::create([
-            'user_id' => Auth::id(),
-            'rank' => $request->rank,
-            'judgment' => $request->judgment,
-            'comment' => $request->comment,
-        ]);
-        // バトルデータに紐づいた、相手のチーム、相手の選出、自分の選出、環境を、中間テーブルを保存するメソッド
-        BattleService::attachBattleRecords($request, $battle->id);
+        try {
+            DB::transaction(function () use ($request) {
+                // バトルデータを保存
+                $battle = Battle::create([
+                    'user_id' => Auth::id(),
+                    'rank' => $request->rank,
+                    'judgment' => $request->judgment,
+                    'comment' => $request->comment,
+                ]);
+                // 相手のチーム、相手の選出、自分の選出、環境を、中間テーブルを保存するメソッド
+                BattleService::attachBattleRecords($request, $battle->id);
+            }, 10);
+        } catch (Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
 
         return to_route('index')->with(['message' => 'バトルデータを登録しました。', 'status' => 'info']);
     }
@@ -108,19 +119,27 @@ class BattleController extends Controller
      * バトルデータを更新するメソッド。
      * @param BattleRequest $request
      * @return RedirectResponse
+     * @throws Throwable
      */
     public function update(BattleRequest $request): RedirectResponse
     {
-        // バトルデータを更新
-        $battle = Battle::availableSelectBattle($request->battleId)->first();
-        $battle->rank = $request->rank;
-        $battle->judgment = $request->judgment;
-        $battle->comment = $request->comment;
-        $battle->save();
-        // バトルデータに、紐付いた中間デーブルのデータを全て削除
-        BattleService::relationDelete($request->battleId);
-        // バトルデータに紐づいた、相手のチーム、相手の選出、自分の選出、環境を、中間テーブルを保存するメソッド
-        BattleService::attachBattleRecords($request, $battle->id);
+        try {
+            DB::transaction(function () use ($request) {
+                // バトルデータを更新
+                $battle = Battle::availableSelectBattle($request->battleId)->first();
+                $battle->rank = $request->rank;
+                $battle->judgment = $request->judgment;
+                $battle->comment = $request->comment;
+                $battle->save();
+                // バトルデータに紐付いた、中間デーブルのデータを全て削除
+                BattleService::relationDelete($request->battleId);
+                // 相手のチーム、相手の選出、自分の選出、環境を、中間テーブルを保存するメソッド
+                BattleService::attachBattleRecords($request, $battle->id);
+            }, 10);
+        } catch (Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
 
         return to_route('index')->with(['message' => 'バトルデータを更新しました。', 'status' => 'info']);
     }
