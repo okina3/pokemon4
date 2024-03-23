@@ -70,7 +70,8 @@ class BattleController extends Controller
     public function show(int $id): View
     {
         // 選択した、バトルデータを取得
-        $select_battle = Battle::availableAllBattle()->first();
+        $select_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
+            ->availableSelectBattle($id)->first();
 
         return view('battles.show', compact('select_battle'));
     }
