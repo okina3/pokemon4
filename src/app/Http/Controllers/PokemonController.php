@@ -6,21 +6,19 @@ use App\Http\Requests\PokemonRequest;
 use App\Models\Pokemon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class PokemonController extends Controller
 {
     /**
      * ポケモンの一覧を表示するメソッド。
+     * @param Request $request
      * @return View
      */
     public function index(Request $request): View
     {
         // 全ポケモンを取得
-        $all_pokemon = Pokemon::where('user_id', Auth::id())
-            ->searchKeyword($request->keyword)
-            ->get();
+        $all_pokemon = Pokemon::availableAllPokemon()->get();
 
         return view('pokemon.index', compact('all_pokemon'));
     }
@@ -43,10 +41,7 @@ class PokemonController extends Controller
     public function store(PokemonRequest $request): RedirectResponse
     {
         // ポケモンを保存
-        Pokemon::create([
-            'name' => $request->name,
-            'user_id' => Auth::id(),
-        ]);
+        Pokemon::availableCreatePokemon($request->name);
 
         return to_route('pokemon.index')->with(['message' => 'ポケモンを登録しました。', 'status' => 'info']);
     }
@@ -59,9 +54,7 @@ class PokemonController extends Controller
     public function show($id): View
     {
         // 選択したポケモンのデータを取得
-        $select_pokemon = Pokemon::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+        $select_pokemon = Pokemon::availableSelectPokemon($id)->first();
 
         return view('pokemon.show', compact('select_pokemon'));
     }
@@ -74,9 +67,7 @@ class PokemonController extends Controller
     public function edit($id): View
     {
         // 選択したポケモンのデータを取得
-        $select_pokemon = Pokemon::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+        $select_pokemon = Pokemon::availableSelectPokemon($id)->first();
 
         return view('pokemon.edit', compact('select_pokemon'));
     }
@@ -88,10 +79,8 @@ class PokemonController extends Controller
      */
     public function update(PokemonRequest $request): RedirectResponse
     {
-        // ポケモンを更新
-        $pokemon = Pokemon::where('id', $request->pokemonId)
-            ->where('user_id', Auth::id())
-            ->first();
+        // 選択したポケモンのデータを更新
+        $pokemon = Pokemon::availableSelectPokemon($request->pokemonId)->first();
         $pokemon->name = $request->name;
         $pokemon->save();
 
@@ -106,9 +95,7 @@ class PokemonController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         // 選択したポケモンを削除
-        Pokemon::where('id', $request->pokemonId)
-            ->where('user_id', Auth::id())
-            ->delete();
+        Pokemon::availableSelectPokemon($request->pokemonId)->delete();
 
         return to_route('pokemon.index')->with(['message' => 'ポケモンを削除しました。', 'status' => 'alert']);
     }

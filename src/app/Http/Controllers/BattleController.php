@@ -23,27 +23,21 @@ class BattleController extends Controller
      */
     public function index(): View
     {
-        $get_url_tag = \Request::query('envs');
+        // 全バトルデータ、または検索されたバトルデータを表示する
+        $get_url = \Request::query('envs');
         // もしクエリパラメータがあれば、環境から絞り込む
-        if (!empty($get_url_tag)) {
+        if (!empty($get_url)) {
             // 絞り込んだ環境にリレーションされたバトルデータを含む、環境を取得
-            $tag_relation = Envs::with('battles')
-                ->where('id', $get_url_tag)
-                ->where('user_id', Auth::id())
-                ->first();
+            $url_envs = Envs::with('battles')->availableSelectEnvs($get_url)->first();
             // 環境にリレーションされたバトルデータを取得
-            $all_battle = $tag_relation->battles;
+            $all_battle = $url_envs->battles;
         } else {
             // 全バトルデータを取得
-            $all_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
-                ->where('user_id', Auth::id())
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $all_battle = Battle::availableAllBattle()->orderBy('created_at', 'desc')->get();
         }
 
         // 全環境を取得
-        $all_envs = Envs::where('user_id', Auth::id())
-            ->get();
+        $all_envs = Envs::availableAllEnvs()->get();
 
         return view('battles.index', compact('all_battle', 'all_envs'));
     }
@@ -55,11 +49,9 @@ class BattleController extends Controller
     public function create(): View
     {
         // 全ポケモンを取得
-        $all_pokemon = Pokemon::all();
-
+        $all_pokemon = Pokemon::availableAllPokemon()->get();
         // 全環境を取得
-        $all_envs = Envs::where('user_id', Auth::id())
-            ->get();
+        $all_envs = Envs::availableAllEnvs()->get();
 
         return view('battles.create', compact('all_pokemon', 'all_envs'));
     }
@@ -110,10 +102,7 @@ class BattleController extends Controller
     public function show(int $id): View
     {
         // 選択した、バトルデータを取得
-        $select_battle = Battle::with(['oppTeams', 'oppSelects', 'playerSelects', 'envs'])
-            ->where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+        $select_battle = Battle::availableAllBattle()->first();
 
         return view('battles.show', compact('select_battle'));
     }
@@ -126,16 +115,11 @@ class BattleController extends Controller
     public function edit(int $id): View
     {
         // 全ポケモンを取得
-        $all_pokemon = Pokemon::all();
-
+        $all_pokemon = Pokemon::availableAllPokemon()->get();
         // 全環境を取得
-        $all_envs = Envs::where('user_id', Auth::id())
-            ->get();
-
+        $all_envs = Envs::availableAllEnvs()->get();
         // 選択したバトルデータを取得
-        $select_battle = Battle::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+        $select_battle = Battle::availableSelectBattle($id)->first();
 
         // 選択したバトルデータに紐づいた相手のチームidを取得
         $opp_teams = [];
@@ -175,9 +159,7 @@ class BattleController extends Controller
     public function update(BattleRequest $request): RedirectResponse
     {
         // バトルデータを更新
-        $battle = Battle::where('id', $request->battleId)
-            ->where('user_id', Auth::id())
-            ->first();
+        $battle = Battle::availableSelectBattle($request->battleId)->first();
         $battle->rank = $request->rank;
         $battle->judgment = $request->judgment;
         $battle->comment = $request->comment;
@@ -223,9 +205,7 @@ class BattleController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         // 選択したバトルデータを削除
-        Battle::where('id', $request->battleId)
-            ->where('user_id', Auth::id())
-            ->delete();
+        Battle::availableSelectBattle($request->battleId)->delete();
 
         return to_route('index')->with(['message' => 'バトルデータを削除しました。', 'status' => 'alert']);
     }

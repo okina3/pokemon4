@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class Pokemon extends Model
 {
@@ -40,6 +42,43 @@ class Pokemon extends Model
     public function playerSelects(): BelongsToMany
     {
         return $this->belongsToMany(Battle::class, 'player_selects');
+    }
+
+    /**
+     * 自分自身の、全てのポケモンを取得する為のスコープ。
+     * @param Builder $query
+     * @return void
+     */
+    public function scopeAvailableAllPokemon(Builder $query): void
+    {
+        $query->select('id', 'name', 'user_id')
+            ->where('user_id', Auth::id());
+    }
+
+    /**
+     * 自分自身の、選択したバトルデータを取得する為のスコープ。
+     * @param Builder $query
+     * @param int $id
+     * @return void
+     */
+    public function scopeAvailableSelectPokemon(Builder $query, int $id): void
+    {
+        $query->where('id', $id)
+            ->where('user_id', Auth::id());
+    }
+
+    /**
+     * ポケモンをDBに保存する為のスコープ。
+     * @param Builder $query
+     * @param string $request_name
+     * @return void
+     */
+    public function scopeAvailableCreatePokemon(Builder $query, string $request_name): void
+    {
+        $query->create([
+            'name' => $request_name,
+            'user_id' => Auth::id()
+        ]);
     }
 
     /**
