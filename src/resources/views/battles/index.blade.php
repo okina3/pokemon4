@@ -113,4 +113,14 @@
             </section>
         </div>
     </div>
+    <script>
+        'use strict'
+
+        // 削除のアラート
+        function deleteCheck() {
+            const RESULT = confirm('本当にバトルデータを削除してもいいですか?');
+            if (!RESULT) alert("削除をキャンセルしました");
+            return RESULT;
+        }
+    </script>
 </x-app-layout>

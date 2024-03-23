@@ -2,7 +2,7 @@
     <div class="max-w-screen-lg mx-auto">
         {{-- フラッシュメッセージ --}}
         <x-common.flash-message status="session('status')"/>
-        {{-- ポケモンの検索の表示エリア --}}
+        {{-- ポケモンの検索エリア --}}
         <section class="mb-5 px-3 py-1 text-gray-600 border border-gray-400 rounded-lg bg-gray-200">
             <form action="{{ route('pokemon.index') }}" method="get">
                 <div class="sm:flex items-center">
@@ -16,12 +16,12 @@
                 </div>
             </form>
         </section>
-        {{-- 登録ポケモン一覧の表示エリア --}}
+        {{-- 登録ポケモン一覧エリア --}}
         <section class="text-gray-600 border border-gray-400 rounded-lg overflow-hidden">
             {{-- タイトル --}}
             <div class="heading_bg py-2 flex justify-between items-center">
                 <h1 class="heading">ポケモン一覧</h1>
-                {{-- ポケモン新規作成ボタン --}}
+                {{-- 新規作成ボタン --}}
                 <button class="btn bg-blue-800 hover:bg-blue-700"
                         onclick="location.href='{{ route('pokemon.create') }}'">
                     ポケモン新規登録
@@ -47,6 +47,7 @@
                                     onclick="location.href='{{ route('pokemon.edit', ['pokemon' => $pokemon->id]) }}'">
                                 編集
                             </button>
+                            {{-- 削除ボタン --}}
                             <form onsubmit="return deleteCheck()" action="{{ route('pokemon.destroy') }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -62,4 +63,14 @@
             </div>
         </section>
     </div>
+    <script>
+        'use strict'
+
+        // 削除のアラート
+        function deleteCheck() {
+            const RESULT = confirm('本当にポケモンを削除してもいいですか?');
+            if (!RESULT) alert("削除をキャンセルしました");
+            return RESULT;
+        }
+    </script>
 </x-app-layout>

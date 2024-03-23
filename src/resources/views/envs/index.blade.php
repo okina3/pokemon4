@@ -5,7 +5,7 @@
         </div>
         <div class="p-3">
             <x-common.flash-message status="session('status')"/>
-            {{-- 環境を新規作成エリア --}}
+            {{-- 環境の新規作成エリア --}}
             <form action="{{ route('envs.store') }}" method="post">
                 @csrf
                 <div class="mb-2 pb-10 border-b border-gray-400">
@@ -32,12 +32,14 @@
                         </div>
                     @endforeach
                 </div>
+                {{-- 削除ボタン --}}
                 <div class="flex justify-end">
                     <button class="py-1 px-3 text-white border-0 rounded bg-red-600 hover:bg-red-500" type="submit">
                         環境を削除
                     </button>
                 </div>
             </form>
+            {{-- 戻るボタン --}}
             <div class="my-2 flex justify-end">
                 <button onclick="location.href='{{ route('index') }}'"
                         class="py-1 px-3 text-white rounded bg-gray-800 hover:bg-gray-700">
@@ -46,4 +48,14 @@
             </div>
         </div>
     </section>
+    <script>
+        'use strict'
+
+        // 削除のアラート
+        function deleteCheck() {
+            const RESULT = confirm('本当に環境を削除してもいいですか?');
+            if (!RESULT) alert("削除をキャンセルしました");
+            return RESULT;
+        }
+    </script>
 </x-app-layout>
