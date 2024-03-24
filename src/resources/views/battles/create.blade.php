@@ -3,12 +3,6 @@
       <h1 class="heading heading_bg">バトルデータの新規登録</h1>
       {{-- バトルデータを新規登録するエリア --}}
       <div class="p-3">
-         <!-- このselectに適用します(id="city"で参照してます) -->
-         <select class="form-select" name="city" id="city">
-            <option value="1">New Delhi</option>
-            <option value="2">Istanbul</option>
-            <option value="3">Jakarta</option>
-         </select>
          <form action="{{ route('store') }}" method="post">
             @csrf
             {{-- 相手の順位を入力 --}}
@@ -26,7 +20,7 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手のチーム</h2>
                @for ($i = 1; $i <= 6; $i++)
-                  <select class="w-40" name="opp_teams[{{ $i }}]">
+                  <select class="w-40" name="opp_teams[{{ $i }}]" id="opp_team{{ $i }}">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}" {{ old("opp_teams.$i") == $pokemon->id ? 'selected' : '' }}>
@@ -47,7 +41,7 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">相手の選出</h2>
                @for ($i = 1; $i <= 3; $i++)
-                  <select class="w-40" name="opp_selects[{{ $i }}]">
+                  <select class="w-40" name="opp_selects[{{ $i }}]" id="opp_select{{ $i }}">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}"
@@ -65,7 +59,8 @@
             <div class="mb-5">
                <h2 class="sub_heading mb-1">自分の選出</h2>
                @for ($i = 1; $i <= 3; $i++)
-                  <select class="w-40" name="player_selects[{{ $i }}]">
+                  <select class="w-40" name="player_selects[{{ $i }}]"
+                     id="player_select{{ $i }}">
                      <option value="">ポケモン選択</option>
                      @foreach ($all_pokemon as $pokemon)
                         <option value="{{ $pokemon->id }}"
@@ -127,7 +122,19 @@
    </section>
    <script type="module">
       $(function() {
-         $('#city').select2()
+         for (let i = 1; i <= 6; i++) {
+            $('#opp_team' + i).select2()
+         }
+      })
+      $(function() {
+         for (let i = 1; i <= 3; i++) {
+            $('#opp_select' + i).select2()
+         }
+      })
+      $(function() {
+         for (let i = 1; i <= 3; i++) {
+            $('#player_select' + i).select2()
+         }
       })
    </script>
 </x-app-layout>

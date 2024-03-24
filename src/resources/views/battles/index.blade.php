@@ -19,7 +19,7 @@
                 </div>
             </section>
             {{-- 登録ポケモン一覧の表示エリア --}}
-            <section class=" md:w-3/4 text-gray-600 border border-gray-400 rounded-lg overflow-hidden">
+            <section class="md:w-3/4 text-gray-600 border border-gray-400 rounded-lg overflow-hidden">
                 {{-- タイトル --}}
                 <div class="heading_bg py-2 flex justify-between items-center">
                     <h1 class="heading">バトルデータ一覧</h1>
@@ -29,7 +29,7 @@
                     </button>
                 </div>
                 {{-- ポケモン一覧 --}}
-                <div class="p-2 h-[73vh] overflow-y-scroll overscroll-none">
+                <div class="p-2 overflow-y-scroll overscroll-none">
                     @foreach ($all_battle as $battle)
                         <div class="mb-2 p-2 flex justify-between items-center border border-gray-400 rounded-lg">
                             <div class="font-semibold">
