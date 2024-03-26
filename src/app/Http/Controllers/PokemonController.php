@@ -18,7 +18,7 @@ class PokemonController extends Controller
     public function index(Request $request): View
     {
         // 全ポケモンを取得
-        $all_pokemon = Pokemon::availableAllPokemon()->get();
+        $all_pokemon = Pokemon::availableAllPokemon()->searchKeyword($request->keyword)->get();
 
         return view('pokemon.index', compact('all_pokemon'));
     }

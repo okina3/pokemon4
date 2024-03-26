@@ -15,6 +15,11 @@ class PokemonSeeder extends Seeder
     {
         DB::table('pokemon')->insert([
             [
+                'name' => 'なし',
+                'user_id' => 1,
+                'created_at' => '2022/01/01/ 11:11:11'
+            ],
+            [
                 'name' => 'カイリュー',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:11'
