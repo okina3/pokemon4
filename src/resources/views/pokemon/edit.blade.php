@@ -13,7 +13,7 @@
                     <input class="w-60 rounded" type="text" name="name" value="{{ $select_pokemon->name }}"
                            placeholder="ポケモン名を入力"/>
                     {{-- エラーメッセージ（メモのタイトル） --}}
-                    {{-- <x-input-error class="mt-2" :messages="$errors->get('name')"/> --}}
+                    <x-input-error class="mt-2" :messages="$errors->get('name')"/>
                 </div>
                 {{-- 選択されているポケモンのidを取得 --}}
                 <input type="hidden" name="pokemonId" value="{{ $select_pokemon->id }}">

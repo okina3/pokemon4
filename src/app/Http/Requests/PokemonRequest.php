@@ -21,7 +21,7 @@ class PokemonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|unique:pokemon,name',
+            'name' => 'string|unique:pokemon,name', 'regex:/^[ぁ-んゝゞー()]+$/u'
         ];
     }
 

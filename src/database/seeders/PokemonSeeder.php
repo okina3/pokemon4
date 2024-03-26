@@ -30,7 +30,7 @@ class PokemonSeeder extends Seeder
                 'created_at' => '2022/01/01/ 11:11:12'
             ],
             [
-                'name' => 'ガチグマ（ア）',
+                'name' => 'ガチグマ(ア)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:13'
             ],
@@ -45,12 +45,12 @@ class PokemonSeeder extends Seeder
                 'created_at' => '2022/01/01/ 11:11:15'
             ],
             [
-                'name' => 'ランドロス（霊獣）',
+                'name' => 'ランドロス(霊)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:16'
             ],
             [
-                'name' => 'ウーラオス（不明）',
+                'name' => 'ウーラオス(不)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:17'
             ],
@@ -125,7 +125,7 @@ class PokemonSeeder extends Seeder
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
             [
-                'name' => 'イダイトウ（オス）',
+                'name' => 'イダイトウ(オス)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
@@ -155,7 +155,7 @@ class PokemonSeeder extends Seeder
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
             [
-                'name' => 'キュウコン（アローラ）',
+                'name' => 'キュウコン(ア)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
@@ -285,7 +285,7 @@ class PokemonSeeder extends Seeder
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
             [
-                'name' => 'ロトム（火）',
+                'name' => 'ロトム(火)',
                 'user_id' => 1,
                 'created_at' => '2022/01/01/ 11:11:18'
             ],
