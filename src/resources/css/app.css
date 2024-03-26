@@ -1,4 +1,6 @@
 @import "common";
+/* Select2の記述 */
+@import "select2";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

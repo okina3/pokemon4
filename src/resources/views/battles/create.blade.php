@@ -20,7 +20,7 @@
                 <div class="mb-5">
                     <h2 class="sub_heading mb-1">相手のチーム</h2>
                     @for ($i = 1; $i <= 6; $i++)
-                        <select class="w-40" name="opp_teams[{{ $i }}]">
+                        <select class="w-40" name="opp_teams[{{ $i }}]" id="opp_team{{ $i }}">
                             <option value="">ポケモン選択</option>
                             @foreach ($all_pokemon as $pokemon)
                                 <option
@@ -42,7 +42,7 @@
                 <div class="mb-5">
                     <h2 class="sub_heading mb-1">相手の選出</h2>
                     @for ($i = 1; $i <= 3; $i++)
-                        <select class="w-40" name="opp_selects[{{ $i }}]">
+                        <select class="w-40" name="opp_selects[{{ $i }}]" id="opp_select{{ $i }}">
                             <option value="">ポケモン選択</option>
                             @foreach ($all_pokemon as $pokemon)
                                 <option value="{{ $pokemon->id }}"
@@ -60,7 +60,8 @@
                 <div class="mb-5">
                     <h2 class="sub_heading mb-1">自分の選出</h2>
                     @for ($i = 1; $i <= 3; $i++)
-                        <select class="w-40" name="player_selects[{{ $i }}]">
+                        <select class="w-40" name="player_selects[{{ $i }}]"
+                                id="player_select{{ $i }}">
                             <option value="">ポケモン選択</option>
                             @foreach ($all_pokemon as $pokemon)
                                 <option value="{{ $pokemon->id }}"
@@ -90,13 +91,17 @@
                 {{-- 勝敗 --}}
                 <div class="mb-5 font-semibold">
                     <h1 class="mb-1 text-lg">勝敗</h1>
-                    <input type="radio" name="judgment" id="win" value="1" checked>
+                    <input type="radio" name="judgment" id="win"
+                           value="1" {{ old('judgment') == '1' ? 'checked' : '' }}>
                     <label for="win">勝ち</label>
-                    <input class="ml-5" type="radio" name="judgment" id="lose" value="0">
+                    <input class="ml-5" type="radio" name="judgment" id="lose"
+                           value="0" {{ old('judgment') == '0' ? 'checked' : '' }}>
                     <label for="lose">負け</label>
-                    <input class="ml-5" type="radio" name="judgment" id="lucky_win" value="2">
+                    <input class="ml-5" type="radio" name="judgment" id="lucky_win"
+                           value="2" {{ old('judgment') == '2' ? 'checked' : '' }}>
                     <label for="lucky_win">運勝ち</label>
-                    <input class="ml-5" type="radio" name="judgment" id="lucky_lose" value="3">
+                    <input class="ml-5" type="radio" name="judgment" id="lucky_lose"
+                           value="3" {{ old('judgment') == '3' ? 'checked' : '' }}>
                     <label for="lucky_lose">運負け</label>
                 </div>
                 {{-- バトルデータのコメント --}}
@@ -121,4 +126,21 @@
             </div>
         </div>
     </section>
+    <script type="module">
+        $(function () {
+            for (let i = 1; i <= 6; i++) {
+                $('#opp_team' + i).select2()
+            }
+        })
+        $(function () {
+            for (let i = 1; i <= 3; i++) {
+                $('#opp_select' + i).select2()
+            }
+        })
+        $(function () {
+            for (let i = 1; i <= 3; i++) {
+                $('#player_select' + i).select2()
+            }
+        })
+    </script>
 </x-app-layout>
